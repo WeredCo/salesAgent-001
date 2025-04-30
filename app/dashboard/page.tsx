@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import Login from "@/components/login"
+import ChatWindow from "@/components/chat-window"
+import { Sidebar } from "@/components/sidebar"
 
-export default function Home() {
+export default function Dashboard() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
 
@@ -12,8 +13,8 @@ export default function Home() {
     // Check if user is authenticated
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
 
-    if (isAuthenticated) {
-      router.push("/dashboard")
+    if (!isAuthenticated) {
+      router.push("/")
     } else {
       setLoading(false)
     }
@@ -27,5 +28,12 @@ export default function Home() {
     )
   }
 
-  return <Login />
+  return (
+    <div className="flex h-screen bg-black">
+      <Sidebar />
+      <div className="flex-1">
+        <ChatWindow />
+      </div>
+    </div>
+  )
 }
